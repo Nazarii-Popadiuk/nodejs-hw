@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from "cors";
 import pino from 'pino-http';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
 const app = express();
 const Port = process.env.PORT ?? 3000;
