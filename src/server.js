@@ -34,9 +34,9 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/notes/:noteId', (req, res) => {
-    const { userId } = req.params;
+    const { noteId } = req.params;
     res.status(200).json({
-        message: `Retrieved note with ID: ${userId}`
+        message: `Retrieved note with ID: ${noteId}`
     }
     );
 });
@@ -53,7 +53,7 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-    res.status(500).json({ message: err.massage });
+    res.status(500).json({ message: err.message });
 });
 
 app.listen(Port, () => {
