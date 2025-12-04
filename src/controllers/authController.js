@@ -37,7 +37,12 @@ export const loginUser = async (req, res, next) => {
         return next(createHttpError(401, 'Invalid credentials'));
     }
 
-    res.satus(200).json(user);
+    await Session.deleteOne({ userId: user._id });
+
+    const newSession = await createSession(user._id);
+    setSessionCookies(res, newSession);
+
+    res.status(200).json(user);
 };
 
 export const refreshUserSession = async (req, res, next) => {
@@ -51,7 +56,7 @@ export const refreshUserSession = async (req, res, next) => {
 
     const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
 
-    if (!isSessionTokenExpired) {
+    if (isSessionTokenExpired) {
         return next(createHttpError(401, 'Session token expired'));
     }
 
@@ -71,7 +76,7 @@ export const refreshUserSession = async (req, res, next) => {
 export const logoutUser = async (req, res) => {
     const { sessionId } = req.cookies;
 
-    if (!sessionId) {
+    if (sessionId) {
         await Session.deleteOne({ _id: sessionId });
     }
     res.clearCookie('sessionId');
