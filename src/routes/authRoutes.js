@@ -1,7 +1,15 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { loginUser, logoutUser, refreshUserSession, registerUser } from '../controllers/authController.js';
-import { registerUserSchema, loginUserSchema } from '../validations/authValidation.js';
+import {
+  loginUser,
+  logoutUser,
+  refreshUserSession,
+  registerUser,
+} from '../controllers/authController.js';
+import {
+  registerUserSchema,
+  loginUserSchema,
+} from '../validations/authValidation.js';
 
 const router = Router();
 router.post('/auth/register', celebrate(registerUserSchema), registerUser);
